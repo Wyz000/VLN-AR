@@ -1,28 +1,9 @@
-const player = document.querySelector('#video');
-const caption = document.querySelector('#video-caption');
-const links = document.querySelectorAll('.videos a');
-const cover = document.querySelector('#play-highlight');
-
-cover.hidden = false;
-function playVideo() {
-  cover.hidden = true;
-  player.play().catch(() => player.focus());
-}
-cover.addEventListener('click', playVideo);
-player.addEventListener('play', () => { cover.hidden = true; });
-for (const link of links) {
-  link.addEventListener('click', (event) => {
-    if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
-    event.preventDefault();
-    if (!link.hasAttribute('aria-current')) {
-      for (const other of links) other.removeAttribute('aria-current');
-      link.setAttribute('aria-current', 'true');
-      player.poster = link.dataset.poster;
-      player.src = link.href;
-      player.setAttribute('aria-label', link.textContent);
-      caption.textContent = link.dataset.caption;
+const films = document.querySelectorAll('.film-row video');
+for (const film of films) {
+  film.addEventListener('play', () => {
+    for (const other of films) {
+      if (other !== film && !other.paused) other.pause();
     }
-    playVideo();
   });
 }
 

@@ -46,23 +46,63 @@
 
   <section id="flights" class="films">
     <h2>Video Highlights</h2>
-    <nav class="videos" aria-label="Select a video">
-      <a href="highlights.mp4" data-poster="assets/hero.webp" data-caption="Selected real-world flights from the indoor, outdoor, and long-horizon experiments." aria-current="true">Highlights</a>
-      <a href="assets/indoor.mp4" data-poster="assets/indoor-poster.webp" data-caption="Indoor navigation using object descriptions and spatial relations.">Indoor</a>
-      <a href="assets/outdoor.mp4" data-poster="assets/outdoor-poster.webp" data-caption="Outdoor landmark navigation and target tracking.">Outdoor</a>
-      <a href="assets/long-horizon.mp4" data-poster="assets/long-horizon-poster.webp" data-caption="Multi-step instructions and robustness tests.">Long-horizon</a>
-      <a href="assets/overview.mp4" data-poster="assets/overview-poster.webp" data-caption="Overview of the data, training, and deployment pipeline.">Project overview</a>
-    </nav>
-    <figure class="screening">
-      <div class="video-stage">
-      <video id="video" controls playsinline preload="metadata" poster="assets/hero.webp" src="highlights.mp4" aria-label="Flight highlights">
-        <a href="highlights.mp4">Watch the flight highlights</a>
-      </video>
-      <button id="play-highlight" class="play-cover" aria-label="Play the 32-second flight highlights" hidden><span class="play-circle" aria-hidden="true">▶</span><span>Play highlights <small>0:32</small></span></button>
-      </div>
-      <figcaption id="video-caption" aria-live="polite">Selected real-world flights from the indoor, outdoor, and long-horizon experiments.</figcaption>
-    </figure>
-
+    <div class="film-list">
+      <figure class="film-row">
+        <figcaption>
+          <h3 id="film-highlights">Flight highlights</h3>
+          <p id="film-highlights-caption">Outdoor navigation (6×), indoor navigation (4×), a long-horizon task (8×), and target tracking (3×).</p>
+        </figcaption>
+        <video controls playsinline preload="none" width="1280" height="720"
+               aria-labelledby="film-highlights" aria-describedby="film-highlights-caption"
+               poster="assets/hero.webp" src="assets/highlights-hd.mp4">
+          <a href="assets/highlights-hd.mp4">Watch Flight highlights</a>
+        </video>
+      </figure>
+      <figure class="film-row">
+        <figcaption>
+          <h3 id="film-indoor">Indoor navigation</h3>
+          <p id="film-indoor-caption">The robot follows instructions using object descriptions and spatial relations. Flights are shown at 4× and 8× speed.</p>
+        </figcaption>
+        <video controls playsinline preload="none" width="1280" height="720"
+               aria-labelledby="film-indoor" aria-describedby="film-indoor-caption"
+               poster="assets/indoor-poster.webp" src="assets/indoor-hd.mp4">
+          <a href="assets/indoor-hd.mp4">Watch Indoor navigation</a>
+        </video>
+      </figure>
+      <figure class="film-row">
+        <figcaption>
+          <h3 id="film-outdoor">Outdoor navigation and tracking</h3>
+          <p id="film-outdoor-caption">Landmark navigation at 6×, additional outdoor trials at 5×, and target tracking at 3×.</p>
+        </figcaption>
+        <video controls playsinline preload="none" width="1280" height="720"
+               aria-labelledby="film-outdoor" aria-describedby="film-outdoor-caption"
+               poster="assets/outdoor-poster.webp" src="assets/outdoor-hd.mp4">
+          <a href="assets/outdoor-hd.mp4">Watch Outdoor navigation and tracking</a>
+        </video>
+      </figure>
+      <figure class="film-row">
+        <figcaption>
+          <h3 id="film-long-horizon">Long-horizon navigation and robustness</h3>
+          <p id="film-long-horizon-caption">A multi-step navigation task at 8×, followed by robustness tests at 3×.</p>
+        </figcaption>
+        <video controls playsinline preload="none" width="1280" height="720"
+               aria-labelledby="film-long-horizon" aria-describedby="film-long-horizon-caption"
+               poster="assets/long-horizon-poster.webp" src="assets/long-horizon-hd.mp4">
+          <a href="assets/long-horizon-hd.mp4">Watch Long-horizon navigation and robustness</a>
+        </video>
+      </figure>
+      <figure class="film-row">
+        <figcaption>
+          <h3 id="film-overview">Project Overview</h3>
+          <p id="film-overview-caption">An overview of data collection, model training, and deployment on the aircraft.</p>
+        </figcaption>
+        <video controls playsinline preload="none" width="1280" height="720"
+               aria-labelledby="film-overview" aria-describedby="film-overview-caption"
+               poster="assets/overview-poster.webp" src="assets/overview.mp4">
+          <a href="assets/overview.mp4">Watch Project Overview</a>
+        </video>
+      </figure>
+    </div>
   </section>
 
   <section id="results">
