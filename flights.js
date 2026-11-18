@@ -1,24 +1,46 @@
 const player = document.querySelector('#video');
-const description = document.querySelector('#clip-description');
-const choices = document.querySelectorAll('.clip');
-const captions = {
-  outdoor: 'The aircraft approaches outdoor landmarks and tracks moving targets.',
-  indoor: 'Indoor flights test object recognition and navigation relative to furniture and other landmarks.',
-  'long-horizon': 'The aircraft follows multi-step instructions and is tested under challenging visual conditions.',
-  overview: 'An overview of the flight tasks, training data, and onboard navigation framework.'
-};
-for (const choice of choices) {
-  choice.addEventListener('click', (event) => {
-    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+const caption = document.querySelector('#video-caption');
+const links = document.querySelectorAll('.videos a');
+const cover = document.querySelector('#play-highlight');
+
+cover.hidden = false;
+function playVideo() {
+  cover.hidden = true;
+  player.play().catch(() => player.focus());
+}
+cover.addEventListener('click', playVideo);
+player.addEventListener('play', () => { cover.hidden = true; });
+for (const link of links) {
+  link.addEventListener('click', (event) => {
+    if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
     event.preventDefault();
-    if (!choice.hasAttribute('aria-current')) {
-      choices.forEach(link => link.removeAttribute('aria-current'));
-      choice.setAttribute('aria-current', 'true');
-      player.poster = choice.querySelector('img').src;
-      player.src = choice.href;
-      player.setAttribute('aria-label', choice.querySelector('strong').textContent);
-      description.textContent = captions[choice.dataset.clip];
+    if (!link.hasAttribute('aria-current')) {
+      for (const other of links) other.removeAttribute('aria-current');
+      link.setAttribute('aria-current', 'true');
+      player.poster = link.dataset.poster;
+      player.src = link.href;
+      player.setAttribute('aria-label', link.textContent);
+      caption.textContent = link.dataset.caption;
     }
-    player.play().catch(() => { /* Native controls remain available. */ });
+    playVideo();
+  });
+}
+
+const copyButton = document.querySelector('#copy-citation');
+if (navigator.clipboard?.writeText) {
+  copyButton.hidden = false;
+  copyButton.setAttribute('aria-live', 'polite');
+  copyButton.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(document.querySelector('#bibtex').textContent);
+      copyButton.textContent = 'Copied';
+    } catch {
+      copyButton.textContent = 'Select text to copy';
+      const range = document.createRange();
+      range.selectNodeContents(document.querySelector('#bibtex'));
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
   });
 }

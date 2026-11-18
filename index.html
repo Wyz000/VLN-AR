@@ -2,68 +2,141 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#fafaf7">
-  <meta name="description" content="VLN-AR interprets language instructions and plans feasible flight paths onboard aerial robots. Explore flight demonstrations, the navigation framework, and results.">
-  <title>VLN-AR · Onboard Vision-Language Navigation for Aerial Robots</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VLN-AR is a hierarchical onboard vision-language navigation framework for aerial robots. Read the paper, watch flight experiments, and explore the results and method.">
+  <meta name="theme-color" content="#0a1620">
+  <title>VLN-AR | A Hierarchical Onboard Vision-Language-Navigation Framework for Aerial Robots in Complex Environments</title>
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
   <script defer src="flights.js"></script>
 </head>
 <body id="top">
-<a class="skip" href="#main">Skip to content</a>
-<header><nav class="wrap">
-  <a class="brand" href="#top" aria-label="VLN-AR home"><img src="assets/mark.svg" alt="" width="35" height="35"> VLN-AR</a>
-  <div class="navlinks"><a href="#flights">Flights</a><a href="#method">Method</a><a href="#results">Results</a><a href="#paper">Paper <span aria-hidden="true">↓</span></a></div>
-</nav></header>
-<main id="main">
-  <section class="hero wrap" aria-labelledby="project">
-    <div class="intro">
-      <p class="eyebrow"><span class="signal"></span>Aerial robotics research</p>
-      <h1 id="project">VLN<span>-</span>AR</h1>
-      <p class="paper-title">A Hierarchical Onboard Vision-Language-Navigation Framework for Aerial Robots in Complex Environments</p>
-      <p class="lede">An aerial robot reads a navigation instruction, locates its next goal, and plans a flight path using its onboard cameras and computer.</p>
-      <div class="actions"><a class="btn primary" href="assets/vln-ar-paper.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6"/></svg>Read the paper</a><a class="btn" href="#flights"><span class="play" aria-hidden="true">▶</span>Watch flights</a></div>
-    </div>
-    <figure class="hero-plate">
-      <div class="photo"><img class="hero-photo" src="assets/hero.webp" alt="The research quadrotor hovering in an outdoor plaza in front of trees and an orange building." fetchpriority="high"><span class="corn c1"></span><span class="corn c2"></span><span class="corn c3"></span><span class="corn c4"></span></div>
-      <figcaption><span><i></i>Real-world flight</span><span>Outdoor navigation</span></figcaption>
-    </figure>
+<a class="skip" href="#abstract">Skip to overview</a>
+<nav class="topnav" aria-label="Project sections"><div class="nav-inner">
+  <a class="brand" href="#top"><svg class="rotor" viewBox="0 0 30 30" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="m7 7 16 16m-16 0L23 7"/><circle cx="7" cy="7" r="4.6"/><circle cx="23" cy="7" r="4.6"/><circle cx="7" cy="23" r="4.6"/><circle cx="23" cy="23" r="4.6"/></g><circle cx="15" cy="15" r="3.4" fill="currentColor"/></svg>VLN-AR</a>
+  <div class="nav-links"><a href="#abstract">Overview</a><a href="#flights">Highlights</a><a href="#results">Results</a><a href="#method">Method</a><a href="#citation">Citation</a></div>
+</div></nav>
+<header id="paper" class="cover">
+<div class="cover-copy">
+  <div class="wordmark" aria-hidden="true">VLN-AR</div>
+  <h1>A Hierarchical Onboard Vision-Language-Navigation Framework for Aerial Robots in Complex Environments</h1>
+  <p class="venue"><a href="https://doi.org/10.1109/TRO.2026.3754505">IEEE Transactions on Robotics · 2026</a></p>
+  <p class="authors">
+    <span>Yuze Wu<sup>1,2,*</sup>,</span> <span>Mo Zhu<sup>1,2,*</sup>,</span>
+    <span>Xingxing Li<sup>2,*</sup>,</span> <span>Yuheng Du<sup>2</sup>,</span>
+    <span>Zhaoqi Wang<sup>2</sup>,</span> <span>Yuxin Fan<sup>1,2</sup>,</span>
+    <span>Wenjun Li<sup>1,2</sup>,</span> <span>Kenghou Hoi<sup>1,2</sup>,</span>
+    <span>Zhichao Han<sup>1,2</sup>,</span> <span>Xin Zhou<sup>1,2,†</sup>,</span>
+    <span>Fei Gao<sup>1,2,†</sup></span>
+  </p>
+  <p class="affiliations"><span><sup>1</sup> State Key Laboratory of Industrial Control Technology, Zhejiang University</span><br><span><sup>2</sup> Differential Robotics</span></p>
+  <p class="roles">* Equal contribution &nbsp; · &nbsp; † Corresponding authors</p>
+  <div class="resources">
+    <a class="button primary" href="assets/vln-ar-paper.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z M14 3v5h4 M9 12h6 M9 16h6"/></svg>Paper</a>
+    <a class="button" href="#flights"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg>Video</a>
+    <a class="button" href="#citation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H6v5c0 2-1 3-3 3 2 0 3 1 3 3v5h3 M15 4h3v5c0 2 1 3 3 3-2 0-3 1-3 3v5h-3"/></svg>BibTeX</a>
+  </div>
+</div>
+</header>
+<main>
+  <section id="abstract" class="overview">
+    <h2>Overview</h2>
+    <p>VLN-AR enables aerial robots to follow natural-language instructions using onboard cameras and computation. A vision-language model identifies the next goal, a memory module tracks progress through multi-step instructions, and a lightweight planner converts each goal into a feasible flight path. We train the model in three stages using photorealistic scenes reconstructed with 3D Gaussian Splatting. We evaluate VLN-AR in simulation and on two aerial robots navigating indoor and outdoor environments.</p>
   </section>
-  <div class="metricwrap"><dl class="metrics wrap">
-    <div><dt>Real-world success</dt><dd>90.1<span>%</span></dd><p>91 of 101 flight trials</p></div>
-    <div><dt>Onboard decoding speedup</dt><dd>7.1–9.4<span>×</span></dd><p>Per token on Jetson Orin NX</p></div>
-    <div><dt>Training data</dt><dd>~4<span>M</span></dd><p>Mixed navigation and vision-language samples</p></div>
-  </dl></div>
-  <section id="flights" class="section wrap">
-    <div class="section-head"><div><p class="eyebrow"><span class="signal"></span>Experiments</p><h2>Flight demonstrations</h2></div><p>Follow the aircraft and its first-person view as it executes language instructions in real environments.</p></div>
-    <div class="flight-layout">
-      <figure class="player"><video id="video" controls playsinline preload="none" poster="assets/outdoor-poster.webp" aria-label="Outdoor navigation demonstration" src="assets/outdoor.mp4"><a href="assets/outdoor.mp4">Open outdoor flight video</a></video>
-      <figcaption id="clip-description" aria-live="polite">The aircraft approaches outdoor landmarks and tracks moving targets.</figcaption></figure>
-      <div class="clips" role="group" aria-label="Choose a flight video">
-        <a class="clip" aria-current="true" data-clip="outdoor" href="assets/outdoor.mp4"><img src="assets/outdoor-poster.webp" alt="" loading="lazy"><span><strong>Outdoor navigation</strong><small>Landmarks &amp; tracking</small></span><b aria-hidden="true">▶</b></a>
-        <a class="clip" data-clip="indoor" href="assets/indoor.mp4"><img src="assets/indoor-poster.webp" alt="" loading="lazy"><span><strong>Indoor navigation</strong><small>Objects &amp; spatial relations</small></span><b aria-hidden="true">▶</b></a>
-        <a class="clip" data-clip="long-horizon" href="assets/long-horizon.mp4"><img src="assets/long-horizon-poster.webp" alt="" loading="lazy"><span><strong>Long-horizon tasks</strong><small>Multi-step flight &amp; robustness</small></span><b aria-hidden="true">▶</b></a>
-        <a class="clip" data-clip="overview" href="assets/overview.mp4"><img src="assets/overview-poster.webp" alt="" loading="lazy"><span><strong>Project overview</strong><small>Data, training &amp; deployment</small></span><b aria-hidden="true">▶</b></a>
+
+  <section id="flights" class="films">
+    <h2>Video Highlights</h2>
+    <nav class="videos" aria-label="Select a video">
+      <a href="highlights.mp4" data-poster="assets/hero.webp" data-caption="Selected real-world flights from the indoor, outdoor, and long-horizon experiments." aria-current="true">Highlights</a>
+      <a href="assets/indoor.mp4" data-poster="assets/indoor-poster.webp" data-caption="Indoor navigation using object descriptions and spatial relations.">Indoor</a>
+      <a href="assets/outdoor.mp4" data-poster="assets/outdoor-poster.webp" data-caption="Outdoor landmark navigation and target tracking.">Outdoor</a>
+      <a href="assets/long-horizon.mp4" data-poster="assets/long-horizon-poster.webp" data-caption="Multi-step instructions and robustness tests.">Long-horizon</a>
+      <a href="assets/overview.mp4" data-poster="assets/overview-poster.webp" data-caption="Overview of the data, training, and deployment pipeline.">Project overview</a>
+    </nav>
+    <figure class="screening">
+      <div class="video-stage">
+      <video id="video" controls playsinline preload="metadata" poster="assets/hero.webp" src="highlights.mp4" aria-label="Flight highlights">
+        <a href="highlights.mp4">Watch the flight highlights</a>
+      </video>
+      <button id="play-highlight" class="play-cover" aria-label="Play the 32-second flight highlights" hidden><span class="play-circle" aria-hidden="true">▶</span><span>Play highlights <small>0:32</small></span></button>
       </div>
+      <figcaption id="video-caption" aria-live="polite">Selected real-world flights from the indoor, outdoor, and long-horizon experiments.</figcaption>
+    </figure>
+
+  </section>
+
+  <section id="results">
+    <h2>Results</h2>
+    <dl class="findings">
+      <div><dt>Real-world navigation</dt><dd>90.1<span>%</span></dd><dd class="finding-detail">91 of 101 flight trials completed across two aircraft.</dd></div>
+      <div><dt>Long-horizon navigation</dt><dd>88.0<span>%</span></dd><dd class="finding-detail">Multi-step task success with the navigation agent, up from 57.4% without it. <a href="assets/vln-ar-paper.pdf#page=18">Table VI</a></dd></div>
+      <div><dt>Onboard decoding</dt><dd>7.1–9.4<span>×</span></dd><dd class="finding-detail">Per-token speedup across 2B–7B models on Jetson Orin NX at 30 W. <a href="assets/vln-ar-paper.pdf#page=15">Table III</a></dd></div>
+    </dl>
+
+    <div class="robustness" id="robustness">
+      <h3>Real-world robustness</h3>
+      <p class="experiment-note">Successful flights out of 20 trials per condition, with no additional fine-tuning. <a href="assets/vln-ar-paper.pdf#page=15">Table IV</a> · <a href="assets/vln-ar-paper.pdf#page=16">Figure 11</a></p>
+      <ul class="condition-list">
+        <li><img src="assets/robustness-suspended-obstacles.webp" width="573" height="377" loading="lazy" alt="A square gate suspended between obstacles in the lab."><div><span>Suspended obstacles</span><strong>18/20</strong></div></li>
+        <li><img src="assets/robustness-height-change.webp" width="573" height="367" loading="lazy" alt="The aerial robot rises above a whiteboard in a two-story building."><div><span>Height changes &gt;5 m</span><strong>19/20</strong></div></li>
+        <li><img src="assets/robustness-low-light.webp" width="585" height="375" loading="lazy" alt="The robot navigates an outdoor walkway at night."><div><span>Low light at night</span><strong>17/20</strong></div></li>
+        <li><img src="assets/robustness-moving-obstacle.webp" width="584" height="384" loading="lazy" alt="A person crosses the robot’s path in a furnished room."><div><span>Moving obstacles</span><strong>17/20</strong></div></li>
+        <li><img src="assets/zero-shot-flight-2.webp" width="571" height="383" loading="lazy" alt="The robot approaches a chair in a previously unseen office."><div><span>Unseen scenes</span><strong>18/20</strong></div></li>
+      </ul>
+    </div>
+
+    <details class="flight-detail" id="zero-shot-flight">
+      <summary>Example flight in an unseen office</summary>
+      <figure class="flight-sequence">
+      <div class="flight-frames">
+        <img src="assets/zero-shot-flight-1.webp" width="560" height="382" loading="lazy" alt="The aerial robot faces a group of office chairs.">
+        <img src="assets/zero-shot-flight-2.webp" width="571" height="383" loading="lazy" alt="The robot reaches the chair with clothing draped over it.">
+        <img src="assets/zero-shot-flight-3.webp" width="587" height="383" loading="lazy" alt="The robot flies away from the chair toward a cardboard box.">
+        <img src="assets/zero-shot-flight-4.webp" width="596" height="382" loading="lazy" alt="The robot approaches the delivery box on a white pedestal.">
+      </div>
+      <figcaption>“Go to the chair where the clothes are placed, and then approach the delivery box.” <a href="assets/vln-ar-paper.pdf#page=16">Figure 11</a></figcaption>
+      </figure>
+    </details>
+
+    <div class="benchmark-results">
+      <h3 id="simulation-results">Closed-loop simulation</h3>
+      <table aria-labelledby="simulation-results" aria-describedby="benchmark-note">
+        <thead><tr><th scope="col">Evaluation set</th><th scope="col">Success rate</th><th scope="col">Navigation error</th><th scope="col">Trajectory time</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">AerialVLN</th><td><strong>78.15%</strong></td><td>22.12 m</td><td>41.51 s</td></tr>
+          <tr><th scope="row">OpenFly</th><td><strong>76.88%</strong></td><td>23.22 m</td><td>40.07 s</td></tr>
+          <tr><th scope="row">Held-out indoor scenes</th><td><strong>92.66%</strong></td><td>5.75 m</td><td>16.18 s</td></tr>
+        </tbody>
+      </table>
+      <p class="experiment-note" id="benchmark-note">Trajectory time is averaged over successful trials. <a href="assets/vln-ar-paper.pdf#page=11">Table II</a></p>
     </div>
   </section>
-  <section id="method" class="method-band"><div class="section wrap">
-    <p class="eyebrow"><span class="signal"></span>Method</p><h2>From instruction to flight</h2>
-    <div class="method-layout"><div class="method-copy">
-      <h3>Learn from reconstructed scenes</h3><p>3D Gaussian Splatting reconstructs real environments for simulated flights. Two supervised training stages teach grounding and navigation, followed by reinforcement learning in closed-loop simulation.</p>
-      <h3>Choose the next goal</h3><p>A vision-language model uses the instruction, current view, and recent observations to predict a target pose. A memory module breaks longer requests into subtasks and tracks their progress.</p>
-      <h3>Plan and execute onboard</h3><p>A lightweight action expert translates each goal into a dynamically feasible trajectory. Instruction-guided token selection reduces the visual computation needed onboard.</p>
-    </div><figure class="method-figure"><a href="assets/method.png" aria-label="Open the full-resolution VLN-AR architecture figure"><img src="assets/method.png" alt="Architecture from the paper showing how image and language tokens produce task status, target poses, and guidance for the action expert." loading="lazy"></a><figcaption>VLN-AR model architecture <a href="assets/method.png">View figure ↗</a></figcaption></figure></div>
-  </div></section>
-  <section id="results" class="section wrap">
-    <p class="eyebrow"><span class="signal"></span>Evaluation</p><h2>Navigation performance</h2>
-    <div class="results-layout"><div><h3>Closed-loop simulation</h3><p>Success rates on two outdoor benchmarks and the authors’ held-out indoor scenes. VLA-AN is the authors’ earlier framework.</p>
-    <table><caption class="sr-only">Navigation success rate by evaluation set</caption><thead><tr><th scope="col">Evaluation set</th><th scope="col">VLA-AN</th><th scope="col">VLN-AR</th></tr></thead><tbody>
-    <tr><th scope="row">AerialVLN</th><td>67.37%</td><td>78.15%</td></tr><tr><th scope="row">OpenFly</th><td>64.67%</td><td>76.88%</td></tr><tr><th scope="row">Indoor simulation</th><td>87.42%</td><td>92.66%</td></tr></tbody></table></div>
-    <div class="platform"><div><h3>Onboard flight tests</h3><p>The NCS and NCS-α aircraft ran perception and navigation on a Jetson Orin NX, completing 91 of 101 real-world trials.</p></div><img src="assets/aircraft.png" alt="The NCS-alpha aerial robot used for flight experiments." loading="lazy"></div></div>
+
+  <section id="method">
+    <h2>Method</h2>
+    <figure class="architecture">
+      <a href="assets/method.png" aria-label="Open the full-resolution model diagram"><img width="1800" height="725" src="assets/method.png" alt="VLN-AR architecture showing image and instruction inputs, navigation predictions from the vision-language model, and the action expert that generates a flight trajectory." loading="lazy"></a>
+      <figcaption>The onboard navigation model and action expert (Figure 3 in the paper).</figcaption>
+    </figure>
+    <p>The vision-language model combines the instruction with current and past camera views to predict a target pose and decide when to replan or finish a task. For longer instructions, a navigation agent keeps a record of completed subtasks. The action expert uses the predicted goal and a depth image to plan a dynamically feasible trajectory.</p>
+    <p>Two supervised training stages teach visual grounding and navigation using a mixture of aerial navigation and vision-language data. Reinforcement learning in closed-loop simulation then refines the model’s decisions. At deployment, instruction-guided visual token selection reduces the computation required on the aircraft.</p>
   </section>
-  <section id="paper" class="paper-band"><div class="section wrap paper-layout"><div><p class="eyebrow"><span class="signal"></span>Manuscript</p><h2>Paper &amp; authors</h2><a class="btn light" href="assets/vln-ar-paper.pdf">Open paper <span aria-hidden="true">↗</span></a></div>
-    <div class="credits"><h3>A Hierarchical Onboard Vision-Language-Navigation Framework for Aerial Robots in Complex Environments</h3><p class="authors">Yuze Wu<sup>1,2,*</sup>, Mo Zhu<sup>1,2,*</sup>, Xingxing Li<sup>2,*</sup>, Yuheng Du<sup>2</sup>, Zhaoqi Wang<sup>2</sup>, Yuxin Fan<sup>1,2</sup>, Wenjun Li<sup>1,2</sup>, Kenghou Hoi<sup>1,2</sup>, Zhichao Han<sup>1,2</sup>, Xin Zhou<sup>1,2,†</sup>, and Fei Gao<sup>1,2,†</sup></p><p class="notes"><sup>1</sup> State Key Laboratory of Industrial Control Technology, Zhejiang University<br><sup>2</sup> Differential Robotics</p><p class="notes">* Equal contribution &nbsp; · &nbsp; † Corresponding authors</p></div></div></section>
-</main><footer class="wrap"><a class="brand" href="#top"><img src="assets/mark.svg" width="27" height="27" alt="">VLN-AR</a><a href="#top">Back to top ↑</a></footer>
-</body></html>
+
+  <section id="citation">
+    <h2>Citation</h2>
+    <div class="bib-panel"><div class="bib-tools"><span>BibTeX</span><div><button id="copy-citation" type="button" hidden>Copy</button><a href="citation.bib" download>Download .bib</a></div></div>
+    <pre><code id="bibtex">@ARTICLE{11803153,
+  author={Wu, Yuze and Zhu, Mo and Li, Xingxing and Du, Yuheng and Wang, Zhaoqi and Fan, Yuxin and Li, Wenjun and Hoi, Kenghou and Han, Zhichao and Zhou, Xin and Gao, Fei},
+  journal={IEEE Transactions on Robotics}, 
+  title={A Hierarchical Onboard Vision-Language-Navigation Framework for Aerial Robots in Complex Environments}, 
+  year={2026},
+  volume={},
+  number={},
+  pages={1-20},
+  keywords={Modeling;Navigation;Autonomous aerial vehicles;Cognition;Cognitive systems;Optimization;Training;Educational institutions;Trajectory;Argon;Aerial system;Autonomous navigation;Foundation model;Onboard Deployment},
+  doi={10.1109/TRO.2026.3754505}}</code></pre></div>
+
+  </section>
+</main>
+</body>
+</html>
